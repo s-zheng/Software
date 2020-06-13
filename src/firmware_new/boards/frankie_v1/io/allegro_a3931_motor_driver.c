@@ -28,7 +28,8 @@ AllegroA3931MotorDriver_t* io_allegro_a3931_motor_driver_create(
     motor_driver->brake_pin     = brake_pin;
     motor_driver->esf_pin       = esf_pin;
 
-    io_gpio_pin_setInactive(motor_driver->reset_pin);
+io_gpio_pin_setInactive(motor_driver->reset_pin);
+//io_gpio_pin_setActive(motor_driver->reset_pin);
     io_gpio_pin_setInactive(motor_driver->coast_pin);
     io_gpio_pin_setActive(motor_driver->mode_pin);
     io_gpio_pin_setActive(motor_driver->direction_pin);
