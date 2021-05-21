@@ -3,6 +3,8 @@
 #include <assert.h>
 #include <stdlib.h>
 
+#include "firmware/app/logger/logger.h"
+
 typedef struct PwmPin
 {
     TIM_HandleTypeDef* timer;
@@ -16,7 +18,7 @@ PwmPin_t* io_pwm_pin_create(TIM_HandleTypeDef* timer, uint16_t timer_channel)
     pwm_pin->timer         = timer;
     pwm_pin->timer_channel = timer_channel;
 
-    io_pwm_pin_setPwm(pwm_pin, 0);
+    io_pwm_pin_setPwm(pwm_pin, 0.0f);
 
     return pwm_pin;
 }
@@ -39,6 +41,16 @@ void io_pwm_pin_setPwm(PwmPin_t* pwm_pin, float pwm_percentage)
     timer_config.OCPolarity = TIM_OCPOLARITY_HIGH;
     timer_config.OCFastMode = TIM_OCFAST_DISABLE;
 
+    TLOG_INFO("Starting timer with pwm %d pulse out of max %d", pulse, (int)pulse_max);
+
     HAL_TIM_PWM_ConfigChannel(pwm_pin->timer, &timer_config, pwm_pin->timer_channel);
     HAL_TIM_PWM_Start(pwm_pin->timer, pwm_pin->timer_channel);
+}
+
+void io_pwm_pin_updatePwm(PwmPin_t* pwm_pin, float pwm_percentage)
+{
+    float pulse_max = (float)pwm_pin->timer->Init.Period;
+    uint16_t pulse  = (uint16_t)round(fabs(pwm_percentage) * pulse_max);
+
+    __HAL_TIM_SET_COMPARE(pwm_pin->timer, pwm_pin->timer_channel, pulse);
 }

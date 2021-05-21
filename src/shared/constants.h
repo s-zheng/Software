@@ -99,6 +99,7 @@ const double ANGLE_TO_ROBOT_BACK_WHEELS_DEG  = 136.04;
 // Networking
 // the IPv6 multicast address, only ff02 is important, the rest is random
 // see https://en.wikipedia.org/wiki/Solicited-node_multicast_address for why ff02 matters
+#ifdef __unix__
 #define MAX_MULTICAST_CHANNELS 16
 #define MULTICAST_CHANNEL_LENGTH 21
 const char MULTICAST_CHANNELS[MAX_MULTICAST_CHANNELS][MULTICAST_CHANNEL_LENGTH] = {
@@ -137,7 +138,4 @@ const unsigned int MAX_ROBOT_IDS = 16;
 const float ROBOT_MAX_BATTERY_VOLTAGE = 16.0;
 
 const unsigned int ROBOT_CHIP_ANGLE_DEGREES = 45;
-
-// How many robots are allowed in each division
-const unsigned DIV_A_NUM_ROBOTS = 11;
-const unsigned DIV_B_NUM_ROBOTS = 6;
+#endif
