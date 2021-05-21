@@ -24,37 +24,36 @@
 #define __MAIN_H
 
 #ifdef __cplusplus
-extern "C"
-{
+extern "C" {
 #endif
 
 /* Includes ------------------------------------------------------------------*/
 #include "stm32h7xx_hal.h"
 
-    /* Private includes ----------------------------------------------------------*/
-    /* USER CODE BEGIN Includes */
+/* Private includes ----------------------------------------------------------*/
+/* USER CODE BEGIN Includes */
 
-    /* USER CODE END Includes */
+/* USER CODE END Includes */
 
-    /* Exported types ------------------------------------------------------------*/
-    /* USER CODE BEGIN ET */
+/* Exported types ------------------------------------------------------------*/
+/* USER CODE BEGIN ET */
 
-    /* USER CODE END ET */
+/* USER CODE END ET */
 
-    /* Exported constants --------------------------------------------------------*/
-    /* USER CODE BEGIN EC */
+/* Exported constants --------------------------------------------------------*/
+/* USER CODE BEGIN EC */
 
-    /* USER CODE END EC */
+/* USER CODE END EC */
 
-    /* Exported macro ------------------------------------------------------------*/
-    /* USER CODE BEGIN EM */
+/* Exported macro ------------------------------------------------------------*/
+/* USER CODE BEGIN EM */
 
-    /* USER CODE END EM */
+/* USER CODE END EM */
 
-    /* Exported functions prototypes ---------------------------------------------*/
-    void Error_Handler(void);
+/* Exported functions prototypes ---------------------------------------------*/
+void Error_Handler(void);
 
-    /* USER CODE BEGIN EFP */
+/* USER CODE BEGIN EFP */
 
     /**
      * Initializes the drivetrain
@@ -74,14 +73,10 @@ extern "C"
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
-#define FAULT_PWR_BRD_Pin GPIO_PIN_3
-#define FAULT_PWR_BRD_GPIO_Port GPIOE
-#define DONE_PWR_BRD_Pin GPIO_PIN_4
-#define DONE_PWR_BRD_GPIO_Port GPIOE
-#define WHEEL_FRONT_RIGHT_FF1_Pin GPIO_PIN_5
-#define WHEEL_FRONT_RIGHT_FF1_GPIO_Port GPIOE
-#define MOTOR_A_PWM_Pin GPIO_PIN_6
-#define MOTOR_A_PWM_GPIO_Port GPIOE
+#define IMU_INT1_Pin GPIO_PIN_6
+#define IMU_INT1_GPIO_Port GPIOE
+#define IMU_INT2_Pin GPIO_PIN_13
+#define IMU_INT2_GPIO_Port GPIOC
 #define PC14_OSC32_IN_Pin GPIO_PIN_14
 #define PC14_OSC32_IN_GPIO_Port GPIOC
 #define PC15_OSC32_OUT_Pin GPIO_PIN_15
@@ -90,8 +85,6 @@ extern "C"
 #define IMU_SDA_GPIO_Port GPIOF
 #define IMU_SCL_Pin GPIO_PIN_1
 #define IMU_SCL_GPIO_Port GPIOF
-#define MOTOR_E_RESET_Pin GPIO_PIN_2
-#define MOTOR_E_RESET_GPIO_Port GPIOF
 #define ENCODER_FRONT_LEFT_SIN_Pin GPIO_PIN_3
 #define ENCODER_FRONT_LEFT_SIN_GPIO_Port GPIOF
 #define ENCODER_FRONT_LEFT_COS_Pin GPIO_PIN_4
@@ -106,12 +99,6 @@ extern "C"
 #define ENCODER_BACK_RIGHT_SIN_GPIO_Port GPIOF
 #define HV_SENSE_PWR_BRD_Pin GPIO_PIN_9
 #define HV_SENSE_PWR_BRD_GPIO_Port GPIOF
-#define WHEEL_FRONT_RIGHT_FF2_Pin GPIO_PIN_10
-#define WHEEL_FRONT_RIGHT_FF2_GPIO_Port GPIOF
-#define PH0_OSC_IN_Pin GPIO_PIN_0
-#define PH0_OSC_IN_GPIO_Port GPIOH
-#define PH1_OSC_OUT_Pin GPIO_PIN_1
-#define PH1_OSC_OUT_GPIO_Port GPIOH
 #define WHEEL_FRONT_RIGHT_CSOUT_Pin GPIO_PIN_0
 #define WHEEL_FRONT_RIGHT_CSOUT_GPIO_Port GPIOC
 #define RMII_MDC_Pin GPIO_PIN_1
@@ -120,8 +107,6 @@ extern "C"
 #define ENCODER_FRONT_RIGHT_SIN_GPIO_Port GPIOC
 #define ENCODER_FRONT_RIGHT_COS_Pin GPIO_PIN_3
 #define ENCODER_FRONT_RIGHT_COS_GPIO_Port GPIOC
-#define WIFI_TX_Pin GPIO_PIN_0
-#define WIFI_TX_GPIO_Port GPIOA
 #define RMII_REF_CLK_Pin GPIO_PIN_1
 #define RMII_REF_CLK_GPIO_Port GPIOA
 #define RMII_MDIO_Pin GPIO_PIN_2
@@ -142,96 +127,24 @@ extern "C"
 #define RMII_RXD1_GPIO_Port GPIOC
 #define DRIBBLER_CSOUT_Pin GPIO_PIN_0
 #define DRIBBLER_CSOUT_GPIO_Port GPIOB
-#define MOTOR_E_DIR_Pin GPIO_PIN_1
-#define MOTOR_E_DIR_GPIO_Port GPIOB
-#define MOTOR_D_RESET_Pin GPIO_PIN_2
-#define MOTOR_D_RESET_GPIO_Port GPIOB
-#define WHEEL_FRONT_LEFT_CSOUT_Pin GPIO_PIN_11
-#define WHEEL_FRONT_LEFT_CSOUT_GPIO_Port GPIOF
-#define WHEEL_BACK_LEFT_CSOUT_Pin GPIO_PIN_12
-#define WHEEL_BACK_LEFT_CSOUT_GPIO_Port GPIOF
-#define RED_IN_RGB_Pin GPIO_PIN_13
-#define RED_IN_RGB_GPIO_Port GPIOF
-#define BLUE_IN_RGB_Pin GPIO_PIN_14
-#define BLUE_IN_RGB_GPIO_Port GPIOF
-#define GREEN_IN_RGB_Pin GPIO_PIN_15
-#define GREEN_IN_RGB_GPIO_Port GPIOF
-#define CH_SEL_1_Pin GPIO_PIN_0
-#define CH_SEL_1_GPIO_Port GPIOG
-#define CH_SEL_2_Pin GPIO_PIN_1
-#define CH_SEL_2_GPIO_Port GPIOG
-#define CH_SEL_3_Pin GPIO_PIN_7
-#define CH_SEL_3_GPIO_Port GPIOE
-#define MOTOR_A_PWME8_Pin GPIO_PIN_8
-#define MOTOR_A_PWME8_GPIO_Port GPIOE
-#define USER_LED_2_Pin GPIO_PIN_9
-#define USER_LED_2_GPIO_Port GPIOE
-#define USER_LED_3_Pin GPIO_PIN_10
-#define USER_LED_3_GPIO_Port GPIOE
-#define MOTOR_D_DIR_Pin GPIO_PIN_13
-#define MOTOR_D_DIR_GPIO_Port GPIOE
-#define MOTOR_D_MODE_Pin GPIO_PIN_14
-#define MOTOR_D_MODE_GPIO_Port GPIOE
-#define WHEEL_BACK_RIGHT_FF1_Pin GPIO_PIN_15
-#define WHEEL_BACK_RIGHT_FF1_GPIO_Port GPIOE
-#define MOTOR_E_MODE_Pin GPIO_PIN_10
-#define MOTOR_E_MODE_GPIO_Port GPIOB
 #define RMII_TX_EN_Pin GPIO_PIN_11
 #define RMII_TX_EN_GPIO_Port GPIOB
 #define RMII_TXD0_Pin GPIO_PIN_12
 #define RMII_TXD0_GPIO_Port GPIOB
 #define RMII_TXD1_Pin GPIO_PIN_13
 #define RMII_TXD1_GPIO_Port GPIOB
-#define MOTOR_C_DIR_Pin GPIO_PIN_14
-#define MOTOR_C_DIR_GPIO_Port GPIOB
-#define MOTOR_C_MODE_Pin GPIO_PIN_15
-#define MOTOR_C_MODE_GPIO_Port GPIOB
 #define T_VCP_TX_Pin GPIO_PIN_8
 #define T_VCP_TX_GPIO_Port GPIOD
 #define T_VCP_RX_Pin GPIO_PIN_9
 #define T_VCP_RX_GPIO_Port GPIOD
-#define WHEEL_BACK_RIGHT_FF2_Pin GPIO_PIN_10
-#define WHEEL_BACK_RIGHT_FF2_GPIO_Port GPIOD
-#define MOTOR_C_RESET_Pin GPIO_PIN_11
-#define MOTOR_C_RESET_GPIO_Port GPIOD
-#define MOTOR_B_MODE_Pin GPIO_PIN_12
-#define MOTOR_B_MODE_GPIO_Port GPIOD
-#define MOTOR_B_DIR_Pin GPIO_PIN_13
-#define MOTOR_B_DIR_GPIO_Port GPIOD
-#define DRIBBLER_FF1_Pin GPIO_PIN_14
-#define DRIBBLER_FF1_GPIO_Port GPIOD
-#define DRIBBLER_FF2_Pin GPIO_PIN_15
-#define DRIBBLER_FF2_GPIO_Port GPIOD
-#define MOTOR_B_RESET_Pin GPIO_PIN_2
-#define MOTOR_B_RESET_GPIO_Port GPIOG
-#define WHEEL_FRONT_LEFT_FF1_Pin GPIO_PIN_3
-#define WHEEL_FRONT_LEFT_FF1_GPIO_Port GPIOG
-#define WHEEL_FRONT_LEFT_FF2_Pin GPIO_PIN_4
-#define WHEEL_FRONT_LEFT_FF2_GPIO_Port GPIOG
-#define MOTOR_A_RESET_Pin GPIO_PIN_5
-#define MOTOR_A_RESET_GPIO_Port GPIOG
-#define WHEEL_BACK_LEFT_FF1_Pin GPIO_PIN_6
-#define WHEEL_BACK_LEFT_FF1_GPIO_Port GPIOG
-#define WHEEL_BACK_LEFT_FF2_Pin GPIO_PIN_7
-#define WHEEL_BACK_LEFT_FF2_GPIO_Port GPIOG
-#define BREAKBEAM_Pin GPIO_PIN_8
-#define BREAKBEAM_GPIO_Port GPIOG
-#define MOTOR_D_PWM_Pin GPIO_PIN_6
-#define MOTOR_D_PWM_GPIO_Port GPIOC
-#define MOTOR_B_PWM_Pin GPIO_PIN_7
-#define MOTOR_B_PWM_GPIO_Port GPIOC
-#define MOTOR_A_DIR_Pin GPIO_PIN_8
-#define MOTOR_A_DIR_GPIO_Port GPIOA
-#define MOTOR_E_PWM_Pin GPIO_PIN_9
-#define MOTOR_E_PWM_GPIO_Port GPIOA
-#define MOTOR_C_PWM_Pin GPIO_PIN_10
-#define MOTOR_C_PWM_GPIO_Port GPIOA
+#define SD_DAT0_Pin GPIO_PIN_8
+#define SD_DAT0_GPIO_Port GPIOC
+#define SD_DAT1_Pin GPIO_PIN_9
+#define SD_DAT1_GPIO_Port GPIOC
 #define T_SWDIO_Pin GPIO_PIN_13
 #define T_SWDIO_GPIO_Port GPIOA
 #define T_SWCLK_Pin GPIO_PIN_14
 #define T_SWCLK_GPIO_Port GPIOA
-#define MOTOR_A_MODE_Pin GPIO_PIN_15
-#define MOTOR_A_MODE_GPIO_Port GPIOA
 #define SD_DAT2_Pin GPIO_PIN_10
 #define SD_DAT2_GPIO_Port GPIOC
 #define SD_DAT3_Pin GPIO_PIN_11
@@ -240,20 +153,10 @@ extern "C"
 #define SD_CLK_GPIO_Port GPIOC
 #define WIFI_RX_Pin GPIO_PIN_0
 #define WIFI_RX_GPIO_Port GPIOD
-#define ID_SEL_1_Pin GPIO_PIN_1
-#define ID_SEL_1_GPIO_Port GPIOD
+#define WIFI_TX_Pin GPIO_PIN_1
+#define WIFI_TX_GPIO_Port GPIOD
 #define SD_CMD_Pin GPIO_PIN_2
 #define SD_CMD_GPIO_Port GPIOD
-#define ID_SEL_3_Pin GPIO_PIN_3
-#define ID_SEL_3_GPIO_Port GPIOD
-#define ID_SEL_2_Pin GPIO_PIN_4
-#define ID_SEL_2_GPIO_Port GPIOD
-#define ID_SEL_4_Pin GPIO_PIN_5
-#define ID_SEL_4_GPIO_Port GPIOD
-#define GENEVA_END_STOP_2_Pin GPIO_PIN_12
-#define GENEVA_END_STOP_2_GPIO_Port GPIOG
-#define GENEVA_END_STOP_1_Pin GPIO_PIN_13
-#define GENEVA_END_STOP_1_GPIO_Port GPIOG
 #define GENEVA_DIR_Pin GPIO_PIN_14
 #define GENEVA_DIR_GPIO_Port GPIOG
 #define T_SWO_Pin GPIO_PIN_3
@@ -264,15 +167,9 @@ extern "C"
 #define PMS_SCL_PWR_BRD_GPIO_Port GPIOB
 #define PMS_SDA_PWR_BRD_Pin GPIO_PIN_7
 #define PMS_SDA_PWR_BRD_GPIO_Port GPIOB
-#define KICK_PWR_BRD_Pin GPIO_PIN_8
-#define KICK_PWR_BRD_GPIO_Port GPIOB
-#define CHIP_PWR_BRD_Pin GPIO_PIN_9
-#define CHIP_PWR_BRD_GPIO_Port GPIOB
-#define CHARGE_PWR_BRD_Pin GPIO_PIN_1
-#define CHARGE_PWR_BRD_GPIO_Port GPIOE
-    /* USER CODE BEGIN Private defines */
+/* USER CODE BEGIN Private defines */
 
-    /* USER CODE END Private defines */
+/* USER CODE END Private defines */
 
 #ifdef __cplusplus
 }

@@ -22,10 +22,9 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "FreeRTOS.h"
-
-#include "cmsis_os.h"
-#include "main.h"
 #include "task.h"
+#include "main.h"
+#include "cmsis_os.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -55,7 +54,6 @@
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
-typedef StaticTask_t osStaticThreadDef_t;
 /* USER CODE BEGIN PTD */
 // Networking
 // the IPv6 multicast address, only ff02 is important, the rest is random
@@ -118,127 +116,65 @@ static TbotsProto_PrimitiveSet primitive_set_msg;
 /* USER CODE END Variables */
 /* Definitions for NetStartTask */
 osThreadId_t NetStartTaskHandle;
-uint32_t NetStartTaskBuffer[1024];
-osStaticThreadDef_t NetStartTaskControlBlock;
 const osThreadAttr_t NetStartTask_attributes = {
-    .name       = "NetStartTask",
-    .cb_mem     = &NetStartTaskControlBlock,
-    .cb_size    = sizeof(NetStartTaskControlBlock),
-    .stack_mem  = &NetStartTaskBuffer[0],
-    .stack_size = sizeof(NetStartTaskBuffer),
-    .priority   = (osPriority_t)osPriorityNormal,
+  .name = "NetStartTask",
+  .stack_size = 1024 * 4,
+  .priority = (osPriority_t) osPriorityNormal,
 };
 /* Definitions for RobotStatusTask */
 osThreadId_t RobotStatusTaskHandle;
-uint32_t RobotStatusTaskBuffer[1024];
-osStaticThreadDef_t RobotStatusTaskControlBlock;
 const osThreadAttr_t RobotStatusTask_attributes = {
-    .name       = "RobotStatusTask",
-    .cb_mem     = &RobotStatusTaskControlBlock,
-    .cb_size    = sizeof(RobotStatusTaskControlBlock),
-    .stack_mem  = &RobotStatusTaskBuffer[0],
-    .stack_size = sizeof(RobotStatusTaskBuffer),
-    .priority   = (osPriority_t)osPriorityNormal1,
+  .name = "RobotStatusTask",
+  .stack_size = 1024 * 4,
+  .priority = (osPriority_t) osPriorityNormal1,
 };
 /* Definitions for VisionMsgTask */
 osThreadId_t VisionMsgTaskHandle;
-uint32_t VisionMsgTaskBuffer[1024];
-osStaticThreadDef_t VisionMsgTaskControlBlock;
 const osThreadAttr_t VisionMsgTask_attributes = {
-    .name       = "VisionMsgTask",
-    .cb_mem     = &VisionMsgTaskControlBlock,
-    .cb_size    = sizeof(VisionMsgTaskControlBlock),
-    .stack_mem  = &VisionMsgTaskBuffer[0],
-    .stack_size = sizeof(VisionMsgTaskBuffer),
-    .priority   = (osPriority_t)osPriorityNormal,
+  .name = "VisionMsgTask",
+  .stack_size = 1024 * 4,
+  .priority = (osPriority_t) osPriorityNormal,
 };
 /* Definitions for PrimMsgTask */
 osThreadId_t PrimMsgTaskHandle;
-uint32_t PrimMsgTaskBuffer[1024];
-osStaticThreadDef_t PrimMsgTaskControlBlock;
 const osThreadAttr_t PrimMsgTask_attributes = {
-    .name       = "PrimMsgTask",
-    .cb_mem     = &PrimMsgTaskControlBlock,
-    .cb_size    = sizeof(PrimMsgTaskControlBlock),
-    .stack_mem  = &PrimMsgTaskBuffer[0],
-    .stack_size = sizeof(PrimMsgTaskBuffer),
-    .priority   = (osPriority_t)osPriorityNormal,
+  .name = "PrimMsgTask",
+  .stack_size = 1024 * 4,
+  .priority = (osPriority_t) osPriorityNormal,
 };
-/* Definitions for RobotStatus */
-osThreadId_t RobotStatusHandle;
-uint32_t RobotStatusBuffer[1024];
-osStaticThreadDef_t RobotStatusControlBlock;
-const osThreadAttr_t RobotStatus_attributes = {
-    .name       = "RobotStatus",
-    .cb_mem     = &RobotStatusControlBlock,
-    .cb_size    = sizeof(RobotStatusControlBlock),
-    .stack_mem  = &RobotStatusBuffer[0],
-    .stack_size = sizeof(RobotStatusBuffer),
-    .priority   = (osPriority_t)osPriorityNormal,
+/* Definitions for testMsgUpdate */
+osThreadId_t testMsgUpdateHandle;
+const osThreadAttr_t testMsgUpdate_attributes = {
+  .name = "testMsgUpdate",
+  .stack_size = 1024 * 4,
+  .priority = (osPriority_t) osPriorityNormal,
 };
 /* Definitions for RobotLogMsgSend */
 osThreadId_t RobotLogMsgSendHandle;
-uint32_t RobotLogMsgSendBuffer[1024];
-osStaticThreadDef_t RobotLogMsgSendControlBlock;
 const osThreadAttr_t RobotLogMsgSend_attributes = {
-    .name       = "RobotLogMsgSend",
-    .cb_mem     = &RobotLogMsgSendControlBlock,
-    .cb_size    = sizeof(RobotLogMsgSendControlBlock),
-    .stack_mem  = &RobotLogMsgSendBuffer[0],
-    .stack_size = sizeof(RobotLogMsgSendBuffer),
-    .priority   = (osPriority_t)osPriorityNormal,
+  .name = "RobotLogMsgSend",
+  .stack_size = 1024 * 4,
+  .priority = (osPriority_t) osPriorityNormal,
 };
 /* Definitions for NetworkRobotLog */
 osThreadId_t NetworkRobotLogHandle;
-uint32_t NetworkRobotLogBuffer[1024];
-osStaticThreadDef_t NetworkRobotLogControlBlock;
 const osThreadAttr_t NetworkRobotLog_attributes = {
-    .name       = "NetworkRobotLog",
-    .cb_mem     = &NetworkRobotLogControlBlock,
-    .cb_size    = sizeof(NetworkRobotLogControlBlock),
-    .stack_mem  = &NetworkRobotLogBuffer[0],
-    .stack_size = sizeof(NetworkRobotLogBuffer),
-    .priority   = (osPriority_t)osPriorityNormal,
+  .name = "NetworkRobotLog",
+  .stack_size = 1024 * 4,
+  .priority = (osPriority_t) osPriorityNormal,
 };
 /* Definitions for UbloxOdinTask */
 osThreadId_t UbloxOdinTaskHandle;
-uint32_t UbloxOdinTaskBuffer[1024];
-osStaticThreadDef_t UbloxOdinTaskControlBlock;
 const osThreadAttr_t UbloxOdinTask_attributes = {
-    .name       = "UbloxOdinTask",
-    .cb_mem     = &UbloxOdinTaskControlBlock,
-    .cb_size    = sizeof(UbloxOdinTaskControlBlock),
-    .stack_mem  = &UbloxOdinTaskBuffer[0],
-    .stack_size = sizeof(UbloxOdinTaskBuffer),
-    .priority   = (osPriority_t)osPriorityNormal1,
-};
-/* Definitions for RobotStatusSend */
-osThreadId_t RobotStatusSendHandle;
-uint32_t RobotStatusSendBuffer[1024];
-osStaticThreadDef_t RobotStatusSendControlBlock;
-const osThreadAttr_t RobotStatusSend_attributes = {
-    .name       = "RobotStatusSend",
-    .cb_mem     = &RobotStatusSendControlBlock,
-    .cb_size    = sizeof(RobotStatusSendControlBlock),
-    .stack_mem  = &RobotStatusSendBuffer[0],
-    .stack_size = sizeof(RobotStatusSendBuffer),
-    .priority   = (osPriority_t)osPriorityNormal,
-};
-/* Definitions for RobotTask */
-osThreadId_t RobotTaskHandle;
-uint32_t PrimitiveManageBuffer[1024];
-osStaticThreadDef_t PrimitiveManageControlBlock;
-const osThreadAttr_t RobotTask_attributes = {
-    .name       = "RobotTask",
-    .cb_mem     = &PrimitiveManageControlBlock,
-    .cb_size    = sizeof(PrimitiveManageControlBlock),
-    .stack_mem  = &PrimitiveManageBuffer[0],
-    .stack_size = sizeof(PrimitiveManageBuffer),
-    .priority   = (osPriority_t)osPriorityNormal,
+  .name = "UbloxOdinTask",
+  .stack_size = 1024 * 4,
+  .priority = (osPriority_t) osPriorityNormal,
 };
 /* Definitions for RobotLogProtoQ */
 osMessageQueueId_t RobotLogProtoQHandle;
-const osMessageQueueAttr_t RobotLogProtoQ_attributes = {.name = "RobotLogProtoQ"};
+const osMessageQueueAttr_t RobotLogProtoQ_attributes = {
+  .name = "RobotLogProtoQ"
+};
 
 /* Private function prototypes -----------------------------------------------*/
 /* USER CODE BEGIN FunctionPrototypes */
@@ -252,102 +188,76 @@ float sys_now_float(void)
 /* USER CODE END FunctionPrototypes */
 
 void io_proto_multicast_startNetworkingTask(void *argument);
-extern void io_proto_multicast_senderTask(void *argument);
-extern void io_proto_multicast_listenerTask(void *argument);
-extern void io_robot_status_task(void *argument);
+extern void io_proto_multicast_sender_task(void *argument);
+extern void io_proto_multicast_listener_task(void *argument);
+void test_msg_update(void *argument);
 extern void io_network_logger_task(void *argument);
 extern void io_ublox_odinw262_communicator_task(void *argument);
-void RobotMain(void *argument);
 
-extern void MX_LWIP_Init(void);
 void MX_FREERTOS_Init(void); /* (MISRA C 2004 rule 8.1) */
 
 /**
- * @brief  FreeRTOS initialization
- * @param  None
- * @retval None
- */
-void MX_FREERTOS_Init(void)
-{
-    /* USER CODE BEGIN Init */
+  * @brief  FreeRTOS initialization
+  * @param  None
+  * @retval None
+  */
+void MX_FREERTOS_Init(void) {
+  /* USER CODE BEGIN Init */
 
-    /* USER CODE END Init */
+  /* USER CODE END Init */
 
-    /* USER CODE BEGIN RTOS_MUTEX */
+  /* USER CODE BEGIN RTOS_MUTEX */
     /* add mutexes, ... */
-    /* USER CODE END RTOS_MUTEX */
+  /* USER CODE END RTOS_MUTEX */
 
-    /* USER CODE BEGIN RTOS_SEMAPHORES */
+  /* USER CODE BEGIN RTOS_SEMAPHORES */
     /* add semaphores, ... */
-    /* USER CODE END RTOS_SEMAPHORES */
+  /* USER CODE END RTOS_SEMAPHORES */
 
-    /* USER CODE BEGIN RTOS_TIMERS */
+  /* USER CODE BEGIN RTOS_TIMERS */
     /* start timers, add new ones, ... */
-    /* USER CODE END RTOS_TIMERS */
+  /* USER CODE END RTOS_TIMERS */
 
-    /* Create the queue(s) */
-    /* creation of RobotLogProtoQ */
-    RobotLogProtoQHandle =
-        osMessageQueueNew(16, sizeof(TbotsProto_RobotLog), &RobotLogProtoQ_attributes);
+  /* Create the queue(s) */
+  /* creation of RobotLogProtoQ */
+  RobotLogProtoQHandle = osMessageQueueNew (16, sizeof(TbotsProto_RobotLog), &RobotLogProtoQ_attributes);
 
-    /* USER CODE BEGIN RTOS_QUEUES */
+  /* USER CODE BEGIN RTOS_QUEUES */
     /* add queues, ... */
-    /* USER CODE END RTOS_QUEUES */
+  /* USER CODE END RTOS_QUEUES */
 
-    /* Create the thread(s) */
-    /* creation of NetStartTask */
-    NetStartTaskHandle = osThreadNew(io_proto_multicast_startNetworkingTask, NULL,
-                                     &NetStartTask_attributes);
+  /* Create the thread(s) */
+  /* creation of NetStartTask */
+  NetStartTaskHandle = osThreadNew(io_proto_multicast_startNetworkingTask, NULL, &NetStartTask_attributes);
 
-    /* creation of RobotStatusTask */
-    RobotStatusTaskHandle =
-        osThreadNew(io_proto_multicast_senderTask,
-                    (void *)robot_status_msg_sender_profile, &RobotStatusTask_attributes);
+/*  *//* creation of RobotStatusTask *//*
+  RobotStatusTaskHandle = osThreadNew(io_proto_multicast_sender_task, (void *)robot_status_msg_sender_profile, &RobotStatusTask_attributes);
 
-    /* creation of VisionMsgTask */
-    VisionMsgTaskHandle =
-        osThreadNew(io_proto_multicast_listenerTask, (void *)vision_msg_listener_profile,
-                    &VisionMsgTask_attributes);
+  *//* creation of VisionMsgTask *//*
+  VisionMsgTaskHandle = osThreadNew(io_proto_multicast_listener_task, (void *)vision_msg_listener_profile, &VisionMsgTask_attributes);
 
-    /* creation of PrimMsgTask */
-    PrimMsgTaskHandle =
-        osThreadNew(io_proto_multicast_listenerTask,
-                    (void *)primitive_msg_listener_profile, &PrimMsgTask_attributes);
+  *//* creation of PrimMsgTask *//*
+  PrimMsgTaskHandle = osThreadNew(io_proto_multicast_listener_task, (void *)primitive_msg_listener_profile, &PrimMsgTask_attributes);
 
-    /* creation of RobotStatus */
-    RobotStatusHandle =
-        osThreadNew(io_robot_status_task, (void *)robot_status_msg_sender_profile,
-                    &RobotStatus_attributes);
+  *//* creation of testMsgUpdate *//*
+  testMsgUpdateHandle = osThreadNew(test_msg_update, (void *)robot_status_msg_sender_profile, &testMsgUpdate_attributes);
 
-    /* creation of RobotLogMsgSend */
-    RobotLogMsgSendHandle =
-        osThreadNew(io_proto_multicast_senderTask, (void *)robot_log_msg_sender_profile,
-                    &RobotLogMsgSend_attributes);
+  *//* creation of RobotLogMsgSend *//*
+  RobotLogMsgSendHandle = osThreadNew(io_proto_multicast_sender_task, (void *)robot_log_msg_sender_profile, &RobotLogMsgSend_attributes);
 
-    /* creation of NetworkRobotLog */
-    NetworkRobotLogHandle =
-        osThreadNew(io_network_logger_task, (void *)robot_log_msg_sender_profile,
-                    &NetworkRobotLog_attributes);
+  *//* creation of NetworkRobotLog *//*
+  NetworkRobotLogHandle = osThreadNew(io_network_logger_task, (void*)robot_log_msg_sender_profile, &NetworkRobotLog_attributes);
 
-    /* creation of UbloxOdinTask */
-    UbloxOdinTaskHandle =
-        osThreadNew(io_ublox_odinw262_communicator_task, NULL, &UbloxOdinTask_attributes);
+  *//* creation of UbloxOdinTask *//*
+  UbloxOdinTaskHandle = osThreadNew(io_ublox_odinw262_communicator_task, NULL, &UbloxOdinTask_attributes);*/
 
-    /* creation of RobotStatusSend */
-    RobotStatusSendHandle =
-        osThreadNew(io_proto_multicast_senderTask,
-                    (void *)robot_status_msg_sender_profile, &RobotStatusSend_attributes);
+  /* USER CODE BEGIN RTOS_THREADS */
+  /* USER CODE END RTOS_THREADS */
 
-    /* creation of RobotTask */
-    RobotTaskHandle = osThreadNew(RobotMain, (void *)primitive_msg_listener_profile,
-                                  &RobotTask_attributes);
-
-    /* USER CODE BEGIN RTOS_THREADS */
-    /* USER CODE END RTOS_THREADS */
-
-    /* USER CODE BEGIN RTOS_EVENTS */
+  /* USER CODE BEGIN RTOS_EVENTS */
     /* add events, ... */
-    /* USER CODE END RTOS_EVENTS */
+  /* USER CODE END RTOS_EVENTS */
+
 }
 
 /* USER CODE BEGIN Header_io_proto_multicast_startNetworkingTask */
@@ -359,171 +269,31 @@ void MX_FREERTOS_Init(void)
 /* USER CODE END Header_io_proto_multicast_startNetworkingTask */
 __weak void io_proto_multicast_startNetworkingTask(void *argument)
 {
-    /* init code for LWIP */
-    MX_LWIP_Init();
-    /* USER CODE BEGIN io_proto_multicast_startNetworkingTask */
+  /* USER CODE BEGIN io_proto_multicast_startNetworkingTask */
     /* Infinite loop */
     for (;;)
     {
         osDelay(10000);
     }
-    /* USER CODE END io_proto_multicast_startNetworkingTask */
+  /* USER CODE END io_proto_multicast_startNetworkingTask */
 }
 
-/* USER CODE BEGIN Header_RobotMain */
+/* USER CODE BEGIN Header_test_msg_update */
 /**
- * @brief Function implementing the RobotTask thread.
- * @param argument: Not used
- * @retval None
- */
-/* USER CODE END Header_RobotMain */
-void RobotMain(void *argument)
+* @brief Function implementing the testMsgUpdate thread.
+* @param argument: Not used
+* @retval None
+*/
+/* USER CODE END Header_test_msg_update */
+void test_msg_update(void *argument)
 {
-    /* USER CODE BEGIN RobotMain */
-
-    ProtoMulticastCommunicationProfile_t *comm_profile =
-        (ProtoMulticastCommunicationProfile_t *)argument;
-
-    // Setup the world that acts as the interface for the higher level firmware
-    // (like primitives or the controller) to interface with the outside world
-    //
-    // TODO (#2066) These constants are WRONG, replace with proper ones
-    ForceWheelConstants_t wheel_constants = {
-        .wheel_rotations_per_motor_rotation  = GEAR_RATIO,
-        .wheel_radius                        = WHEEL_RADIUS,
-        .motor_max_voltage_before_wheel_slip = WHEEL_SLIP_VOLTAGE_LIMIT,
-        .motor_back_emf_per_rpm              = RPM_TO_VOLT,
-        .motor_phase_resistance              = 1,
-        .motor_current_per_unit_torque       = CURRENT_PER_TORQUE};
-
-    ForceWheel_t *front_left_wheel = app_force_wheel_create(
-        io_drivetrain_applyForceFrontLeftWheel, io_drivetrain_getFrontLeftRpm,
-        io_drivetrain_brakeFrontLeft, io_drivetrain_coastFrontLeft, wheel_constants);
-
-    ForceWheel_t *front_right_wheel = app_force_wheel_create(
-        io_drivetrain_applyForceFrontRightWheel, io_drivetrain_getFrontRightRpm,
-        io_drivetrain_brakeFrontRight, io_drivetrain_coastFrontRight, wheel_constants);
-
-    ForceWheel_t *back_right_wheel = app_force_wheel_create(
-        io_drivetrain_applyForceBackRightWheel, io_drivetrain_getBackRightRpm,
-        io_drivetrain_brakeBackRight, io_drivetrain_coastBackRight, wheel_constants);
-
-    ForceWheel_t *back_left_wheel = app_force_wheel_create(
-        io_drivetrain_applyForceBackLeftWheel, io_drivetrain_getBackLeftRpm,
-        io_drivetrain_brakeBackLeft, io_drivetrain_coastBackLeft, wheel_constants);
-
-    Charger_t *charger =
-        app_charger_create(io_charger_charge, io_charger_discharge, io_charger_float);
-
-    Chicker_t *chicker =
-        app_chicker_create(io_chicker_kick, io_chicker_chip, io_chicker_enable_auto_kick,
-                           io_chicker_enable_auto_chip, io_chicker_disable_auto_kick,
-                           io_chicker_disable_auto_chip);
-
-    Dribbler_t *dribbler = app_dribbler_create(io_dribbler_setSpeed, io_dribbler_coast,
-                                               io_dribbler_getTemperature);
-
-    const RobotConstants_t robot_constants = {
-        .mass              = ROBOT_POINT_MASS,
-        .moment_of_inertia = INERTIA,
-        .robot_radius      = ROBOT_RADIUS,
-        .jerk_limit        = JERK_LIMIT,
-    };
-
-    ControllerState_t controller_state = {
-        .last_applied_acceleration_x       = 0,
-        .last_applied_acceleration_y       = 0,
-        .last_applied_acceleration_angular = 0,
-    };
-
-    FirmwareRobot_t *robot = app_firmware_robot_force_wheels_create(
-        charger, chicker, dribbler, io_vision_getRobotPositionX,
-        io_vision_getRobotPositionY, io_vision_getRobotOrientation,
-        io_vision_getRobotVelocityX, io_vision_getRobotVelocityY,
-        io_vision_getRobotAngularVelocity, io_power_monitor_getBatteryVoltage,
-        front_right_wheel, front_left_wheel, back_right_wheel, back_left_wheel,
-        &controller_state, robot_constants);
-
-    FirmwareBall_t *ball =
-        app_firmware_ball_create(io_vision_getBallPositionX, io_vision_getBallPositionY,
-                                 io_vision_getBallVelocityX, io_vision_getBallVelocityY);
-
-    FirmwareWorld_t *world = app_firmware_world_create(robot, ball, sys_now_float);
-
-    PrimitiveManager_t *primitive_manager = app_primitive_manager_create();
-    UNUSED(world);
-    UNUSED(primitive_manager);
-
-    GpioPin_t *charge_power_board =
-        io_gpio_pin_create(CHARGE_PWR_BRD_GPIO_Port, CHARGE_PWR_BRD_Pin, ACTIVE_HIGH);
-
-    TLOG_INFO("SETTING ACTIVE");
-    io_gpio_pin_setActive(charge_power_board);
-    osDelay(10000);
-    TLOG_INFO("SETTING INACTIVE");
-    io_gpio_pin_setInactive(charge_power_board);
-    osDelay(10000);
-    TLOG_INFO("SETTING ACTIVE");
-    io_gpio_pin_setActive(charge_power_board);
-
-    /* Infinite loop */
-    for (;;)
-    {
-        io_proto_multicast_communication_profile_blockUntilEvents(comm_profile,
-                                                                  RECEIVED_PROTO);
-
-        TbotsProto_Primitive primitive_msg =
-            (*(TbotsProto_PrimitiveSet *)
-                 io_proto_multicast_communication_profile_getProtoStruct(comm_profile))
-                .robot_primitives[0]
-                .value;
-
-        switch (primitive_msg.which_primitive)
-        {
-            case TbotsProto_Primitive_stop_tag:
-            {
-                break;
-            }
-            case TbotsProto_Primitive_move_tag:
-            {
-                break;
-            }
-            case TbotsProto_Primitive_direct_control_tag:
-            {
-                switch (primitive_msg.primitive.direct_control.which_wheel_control)
-                {
-                    case TbotsProto_DirectControlPrimitive_direct_per_wheel_control_tag:
-                    {
-                        TbotsProto_DirectControlPrimitive_DirectPerWheelControl
-                            control_msg = primitive_msg.primitive.direct_control
-                                              .wheel_control.direct_per_wheel_control;
-
-                        io_drivetrain_applyForceBackLeftWheel(
-                            control_msg.back_left_wheel_rpm / 100.0f);
-                        io_drivetrain_applyForceBackRightWheel(
-                            control_msg.back_right_wheel_rpm / 100.0f);
-                        io_drivetrain_applyForceFrontLeftWheel(
-                            control_msg.front_left_wheel_rpm / 100.0f);
-                        io_drivetrain_applyForceFrontRightWheel(
-                            control_msg.front_right_wheel_rpm / 100.0f);
-                        break;
-                    }
-                    case TbotsProto_DirectControlPrimitive_direct_velocity_control_tag:
-                    {
-                        break;
-                    }
-                    default:
-                    {
-                        // Do nothing
-                        TLOG_WARNING("Wheel control command is not a valid type");
-                    }
-                }
-                break;
-            }
-                osDelay(1);
-        }
-    }
-    /* USER CODE END RobotMain */
+  /* USER CODE BEGIN test_msg_update */
+  /* Infinite loop */
+  for(;;)
+  {
+    osDelay(1);
+  }
+  /* USER CODE END test_msg_update */
 }
 
 /* Private application code --------------------------------------------------*/
@@ -557,10 +327,10 @@ void initIoNetworking(void)
     // so we can't enable the communicator. Uncomment this for mainboard rev 2.1
     // which should fix this issue.
     //
-    GpioPin_t *ublox_reset_pin =
+/*    GpioPin_t *ublox_reset_pin =
         io_gpio_pin_create(ID_SEL_4_GPIO_Port, ID_SEL_4_Pin, ACTIVE_LOW);
 
-    io_ublox_odinw262_communicator_init(&huart4, ublox_reset_pin, 5);
+    io_ublox_odinw262_communicator_init(&huart4, ublox_reset_pin, 5);*/
 
     // Initialize network logger
     io_network_logger_init(RobotLogProtoQHandle);
@@ -568,7 +338,7 @@ void initIoNetworking(void)
 
 void initIoDrivetrain(void)
 {
-    // MOTOR A
+   /* // MOTOR A
     GpioPin_t *motor_a_reset_pin =
         io_gpio_pin_create(MOTOR_A_RESET_GPIO_Port, MOTOR_A_RESET_Pin, ACTIVE_HIGH);
     GpioPin_t *motor_a_mode_pin =
@@ -633,7 +403,7 @@ void initIoDrivetrain(void)
     io_drivetrain_init(drivetrain_unit_motor_b, drivetrain_unit_motor_d,
                        drivetrain_unit_motor_a, drivetrain_unit_motor_e);
 
-    io_allegro_a3931_motor_setPwmPercentage(motor_c_driver, 0.0f);
+    io_allegro_a3931_motor_setPwmPercentage(motor_c_driver, 0.0f);*/
 }
 
 void initIoPowerMonitor(void)
