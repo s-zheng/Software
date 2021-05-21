@@ -3,9 +3,11 @@
 // There are different semaphore implementations depending on if we're on a x86 or arm
 // system, and we use typdefs here to switch between them
 #ifdef __arm__
-#include <semphr.h>
-
+// clang-format off
 #include "FreeRTOS.h"
+
+#include <semphr.h>
+// clang-format on
 #define static_assert _Static_assert
 #elif __unix__
 #include <pthread.h>

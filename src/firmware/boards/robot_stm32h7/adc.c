@@ -71,7 +71,7 @@ void MX_ADC1_Init(void)
     }
     /** Configure Regular Channel
      */
-    sConfig.Channel                = ADC_CHANNEL_2;
+    sConfig.Channel                = ADC_CHANNEL_10;
     sConfig.Rank                   = ADC_REGULAR_RANK_1;
     sConfig.SamplingTime           = ADC_SAMPLETIME_1CYCLE_5;
     sConfig.SingleDiff             = ADC_SINGLE_ENDED;
@@ -212,6 +212,7 @@ void HAL_ADC_MspInit(ADC_HandleTypeDef* adcHandle)
         PC0     ------> ADC1_INP10
         PA3     ------> ADC1_INP15
         PB0     ------> ADC1_INP9
+        PB1     ------> ADC1_INP5
         PF11     ------> ADC1_INP2
         PF12     ------> ADC1_INP6
         */
@@ -220,17 +221,17 @@ void HAL_ADC_MspInit(ADC_HandleTypeDef* adcHandle)
         GPIO_InitStruct.Pull = GPIO_NOPULL;
         HAL_GPIO_Init(WHEEL_FRONT_RIGHT_CSOUT_GPIO_Port, &GPIO_InitStruct);
 
-        GPIO_InitStruct.Pin  = WHEEL_BACK_RIGHT_CSOUT_Pin;
+        GPIO_InitStruct.Pin  = GPIO_PIN_3;
         GPIO_InitStruct.Mode = GPIO_MODE_ANALOG;
         GPIO_InitStruct.Pull = GPIO_NOPULL;
-        HAL_GPIO_Init(WHEEL_BACK_RIGHT_CSOUT_GPIO_Port, &GPIO_InitStruct);
+        HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
-        GPIO_InitStruct.Pin  = DRIBBLER_CSOUT_Pin;
+        GPIO_InitStruct.Pin  = GPIO_PIN_0 | GPIO_PIN_1;
         GPIO_InitStruct.Mode = GPIO_MODE_ANALOG;
         GPIO_InitStruct.Pull = GPIO_NOPULL;
-        HAL_GPIO_Init(DRIBBLER_CSOUT_GPIO_Port, &GPIO_InitStruct);
+        HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
-        GPIO_InitStruct.Pin  = WHEEL_FRONT_LEFT_CSOUT_Pin | WHEEL_BACK_LEFT_CSOUT_Pin;
+        GPIO_InitStruct.Pin  = GPIO_PIN_11 | GPIO_PIN_12;
         GPIO_InitStruct.Mode = GPIO_MODE_ANALOG;
         GPIO_InitStruct.Pull = GPIO_NOPULL;
         HAL_GPIO_Init(GPIOF, &GPIO_InitStruct);
@@ -252,27 +253,13 @@ void HAL_ADC_MspInit(ADC_HandleTypeDef* adcHandle)
         }
 
         __HAL_RCC_GPIOC_CLK_ENABLE();
-        __HAL_RCC_GPIOA_CLK_ENABLE();
-        __HAL_RCC_GPIOB_CLK_ENABLE();
         /**ADC2 GPIO Configuration
         PC0     ------> ADC2_INP10
-        PA3     ------> ADC2_INP15
-        PB0     ------> ADC2_INP9
         */
         GPIO_InitStruct.Pin  = WHEEL_FRONT_RIGHT_CSOUT_Pin;
         GPIO_InitStruct.Mode = GPIO_MODE_ANALOG;
         GPIO_InitStruct.Pull = GPIO_NOPULL;
         HAL_GPIO_Init(WHEEL_FRONT_RIGHT_CSOUT_GPIO_Port, &GPIO_InitStruct);
-
-        GPIO_InitStruct.Pin  = WHEEL_BACK_RIGHT_CSOUT_Pin;
-        GPIO_InitStruct.Mode = GPIO_MODE_ANALOG;
-        GPIO_InitStruct.Pull = GPIO_NOPULL;
-        HAL_GPIO_Init(WHEEL_BACK_RIGHT_CSOUT_GPIO_Port, &GPIO_InitStruct);
-
-        GPIO_InitStruct.Pin  = DRIBBLER_CSOUT_Pin;
-        GPIO_InitStruct.Mode = GPIO_MODE_ANALOG;
-        GPIO_InitStruct.Pull = GPIO_NOPULL;
-        HAL_GPIO_Init(DRIBBLER_CSOUT_GPIO_Port, &GPIO_InitStruct);
 
         /* USER CODE BEGIN ADC2_MspInit 1 */
 
@@ -344,16 +331,17 @@ void HAL_ADC_MspDeInit(ADC_HandleTypeDef* adcHandle)
         PC0     ------> ADC1_INP10
         PA3     ------> ADC1_INP15
         PB0     ------> ADC1_INP9
+        PB1     ------> ADC1_INP5
         PF11     ------> ADC1_INP2
         PF12     ------> ADC1_INP6
         */
         HAL_GPIO_DeInit(WHEEL_FRONT_RIGHT_CSOUT_GPIO_Port, WHEEL_FRONT_RIGHT_CSOUT_Pin);
 
-        HAL_GPIO_DeInit(WHEEL_BACK_RIGHT_CSOUT_GPIO_Port, WHEEL_BACK_RIGHT_CSOUT_Pin);
+        HAL_GPIO_DeInit(GPIOA, GPIO_PIN_3);
 
-        HAL_GPIO_DeInit(DRIBBLER_CSOUT_GPIO_Port, DRIBBLER_CSOUT_Pin);
+        HAL_GPIO_DeInit(GPIOB, GPIO_PIN_0 | GPIO_PIN_1);
 
-        HAL_GPIO_DeInit(GPIOF, WHEEL_FRONT_LEFT_CSOUT_Pin | WHEEL_BACK_LEFT_CSOUT_Pin);
+        HAL_GPIO_DeInit(GPIOF, GPIO_PIN_11 | GPIO_PIN_12);
 
         /* USER CODE BEGIN ADC1_MspDeInit 1 */
 
@@ -373,14 +361,8 @@ void HAL_ADC_MspDeInit(ADC_HandleTypeDef* adcHandle)
 
         /**ADC2 GPIO Configuration
         PC0     ------> ADC2_INP10
-        PA3     ------> ADC2_INP15
-        PB0     ------> ADC2_INP9
         */
         HAL_GPIO_DeInit(WHEEL_FRONT_RIGHT_CSOUT_GPIO_Port, WHEEL_FRONT_RIGHT_CSOUT_Pin);
-
-        HAL_GPIO_DeInit(WHEEL_BACK_RIGHT_CSOUT_GPIO_Port, WHEEL_BACK_RIGHT_CSOUT_Pin);
-
-        HAL_GPIO_DeInit(DRIBBLER_CSOUT_GPIO_Port, DRIBBLER_CSOUT_Pin);
 
         /* USER CODE BEGIN ADC2_MspDeInit 1 */
 

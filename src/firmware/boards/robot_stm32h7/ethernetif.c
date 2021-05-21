@@ -405,6 +405,7 @@ static void low_level_init(struct netif *netif)
             netif_set_link_up(netif);
 
             /* USER CODE BEGIN PHY_POST_CONFIG */
+
             /* USER CODE END PHY_POST_CONFIG */
         }
     }

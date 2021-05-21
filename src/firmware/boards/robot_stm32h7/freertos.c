@@ -210,7 +210,7 @@ const osThreadAttr_t UbloxOdinTask_attributes = {
     .cb_size    = sizeof(UbloxOdinTaskControlBlock),
     .stack_mem  = &UbloxOdinTaskBuffer[0],
     .stack_size = sizeof(UbloxOdinTaskBuffer),
-    .priority   = (osPriority_t)osPriorityNormal1,
+    .priority   = (osPriority_t)osPriorityNormal,
 };
 /* Definitions for RobotStatusSend */
 osThreadId_t RobotStatusSendHandle;
@@ -380,148 +380,10 @@ __weak void io_proto_multicast_startNetworkingTask(void *argument)
 void RobotMain(void *argument)
 {
     /* USER CODE BEGIN RobotMain */
-
-    ProtoMulticastCommunicationProfile_t *comm_profile =
-        (ProtoMulticastCommunicationProfile_t *)argument;
-
-    // Setup the world that acts as the interface for the higher level firmware
-    // (like primitives or the controller) to interface with the outside world
-    //
-    // TODO (#2066) These constants are WRONG, replace with proper ones
-    ForceWheelConstants_t wheel_constants = {
-        .wheel_rotations_per_motor_rotation  = GEAR_RATIO,
-        .wheel_radius                        = WHEEL_RADIUS,
-        .motor_max_voltage_before_wheel_slip = WHEEL_SLIP_VOLTAGE_LIMIT,
-        .motor_back_emf_per_rpm              = RPM_TO_VOLT,
-        .motor_phase_resistance              = 1,
-        .motor_current_per_unit_torque       = CURRENT_PER_TORQUE};
-
-    ForceWheel_t *front_left_wheel = app_force_wheel_create(
-        io_drivetrain_applyForceFrontLeftWheel, io_drivetrain_getFrontLeftRpm,
-        io_drivetrain_brakeFrontLeft, io_drivetrain_coastFrontLeft, wheel_constants);
-
-    ForceWheel_t *front_right_wheel = app_force_wheel_create(
-        io_drivetrain_applyForceFrontRightWheel, io_drivetrain_getFrontRightRpm,
-        io_drivetrain_brakeFrontRight, io_drivetrain_coastFrontRight, wheel_constants);
-
-    ForceWheel_t *back_right_wheel = app_force_wheel_create(
-        io_drivetrain_applyForceBackRightWheel, io_drivetrain_getBackRightRpm,
-        io_drivetrain_brakeBackRight, io_drivetrain_coastBackRight, wheel_constants);
-
-    ForceWheel_t *back_left_wheel = app_force_wheel_create(
-        io_drivetrain_applyForceBackLeftWheel, io_drivetrain_getBackLeftRpm,
-        io_drivetrain_brakeBackLeft, io_drivetrain_coastBackLeft, wheel_constants);
-
-    Charger_t *charger =
-        app_charger_create(io_charger_charge, io_charger_discharge, io_charger_float);
-
-    Chicker_t *chicker =
-        app_chicker_create(io_chicker_kick, io_chicker_chip, io_chicker_enable_auto_kick,
-                           io_chicker_enable_auto_chip, io_chicker_disable_auto_kick,
-                           io_chicker_disable_auto_chip);
-
-    Dribbler_t *dribbler = app_dribbler_create(io_dribbler_setSpeed, io_dribbler_coast,
-                                               io_dribbler_getTemperature);
-
-    const RobotConstants_t robot_constants = {
-        .mass              = ROBOT_POINT_MASS,
-        .moment_of_inertia = INERTIA,
-        .robot_radius      = ROBOT_RADIUS,
-        .jerk_limit        = JERK_LIMIT,
-    };
-
-    ControllerState_t controller_state = {
-        .last_applied_acceleration_x       = 0,
-        .last_applied_acceleration_y       = 0,
-        .last_applied_acceleration_angular = 0,
-    };
-
-    FirmwareRobot_t *robot = app_firmware_robot_force_wheels_create(
-        charger, chicker, dribbler, io_vision_getRobotPositionX,
-        io_vision_getRobotPositionY, io_vision_getRobotOrientation,
-        io_vision_getRobotVelocityX, io_vision_getRobotVelocityY,
-        io_vision_getRobotAngularVelocity, io_power_monitor_getBatteryVoltage,
-        front_right_wheel, front_left_wheel, back_right_wheel, back_left_wheel,
-        &controller_state, robot_constants);
-
-    FirmwareBall_t *ball =
-        app_firmware_ball_create(io_vision_getBallPositionX, io_vision_getBallPositionY,
-                                 io_vision_getBallVelocityX, io_vision_getBallVelocityY);
-
-    FirmwareWorld_t *world = app_firmware_world_create(robot, ball, sys_now_float);
-
-    PrimitiveManager_t *primitive_manager = app_primitive_manager_create();
-    UNUSED(world);
-    UNUSED(primitive_manager);
-
-    GpioPin_t *charge_power_board =
-        io_gpio_pin_create(CHARGE_PWR_BRD_GPIO_Port, CHARGE_PWR_BRD_Pin, ACTIVE_HIGH);
-
-    TLOG_INFO("SETTING ACTIVE");
-    io_gpio_pin_setActive(charge_power_board);
-    osDelay(10000);
-    TLOG_INFO("SETTING INACTIVE");
-    io_gpio_pin_setInactive(charge_power_board);
-    osDelay(10000);
-    TLOG_INFO("SETTING ACTIVE");
-    io_gpio_pin_setActive(charge_power_board);
-
     /* Infinite loop */
     for (;;)
     {
-        io_proto_multicast_communication_profile_blockUntilEvents(comm_profile,
-                                                                  RECEIVED_PROTO);
-
-        TbotsProto_Primitive primitive_msg =
-            (*(TbotsProto_PrimitiveSet *)
-                 io_proto_multicast_communication_profile_getProtoStruct(comm_profile))
-                .robot_primitives[0]
-                .value;
-
-        switch (primitive_msg.which_primitive)
-        {
-            case TbotsProto_Primitive_stop_tag:
-            {
-                break;
-            }
-            case TbotsProto_Primitive_move_tag:
-            {
-                break;
-            }
-            case TbotsProto_Primitive_direct_control_tag:
-            {
-                switch (primitive_msg.primitive.direct_control.which_wheel_control)
-                {
-                    case TbotsProto_DirectControlPrimitive_direct_per_wheel_control_tag:
-                    {
-                        TbotsProto_DirectControlPrimitive_DirectPerWheelControl
-                            control_msg = primitive_msg.primitive.direct_control
-                                              .wheel_control.direct_per_wheel_control;
-
-                        io_drivetrain_applyForceBackLeftWheel(
-                            control_msg.back_left_wheel_rpm / 100.0f);
-                        io_drivetrain_applyForceBackRightWheel(
-                            control_msg.back_right_wheel_rpm / 100.0f);
-                        io_drivetrain_applyForceFrontLeftWheel(
-                            control_msg.front_left_wheel_rpm / 100.0f);
-                        io_drivetrain_applyForceFrontRightWheel(
-                            control_msg.front_right_wheel_rpm / 100.0f);
-                        break;
-                    }
-                    case TbotsProto_DirectControlPrimitive_direct_velocity_control_tag:
-                    {
-                        break;
-                    }
-                    default:
-                    {
-                        // Do nothing
-                        TLOG_WARNING("Wheel control command is not a valid type");
-                    }
-                }
-                break;
-            }
-                osDelay(1);
-        }
+        osDelay(1);
     }
     /* USER CODE END RobotMain */
 }
@@ -568,7 +430,7 @@ void initIoNetworking(void)
 
 void initIoDrivetrain(void)
 {
-    // MOTOR A
+    /*// MOTOR A
     GpioPin_t *motor_a_reset_pin =
         io_gpio_pin_create(MOTOR_A_RESET_GPIO_Port, MOTOR_A_RESET_Pin, ACTIVE_HIGH);
     GpioPin_t *motor_a_mode_pin =
@@ -633,7 +495,7 @@ void initIoDrivetrain(void)
     io_drivetrain_init(drivetrain_unit_motor_b, drivetrain_unit_motor_d,
                        drivetrain_unit_motor_a, drivetrain_unit_motor_e);
 
-    io_allegro_a3931_motor_setPwmPercentage(motor_c_driver, 0.0f);
+    io_allegro_a3931_motor_setPwmPercentage(motor_c_driver, 0.0f);*/
 }
 
 void initIoPowerMonitor(void)
